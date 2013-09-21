@@ -6,13 +6,13 @@ class AmityRbot < Plugin
     @ex = ItemExtractor.new
   end
 
-  def help(plugin, topic="")
-    return "market <item> => returns market info of <item>"
+  def help(plugin, topic='')
+    'market <item> => returns market info of <item>'
   end
 
   def privmsg(m)
-    unless (m.params)
-      m.reply "incorrect usage. " + help(m.plugin)
+    unless m.params
+      m.reply 'incorrect usage. ' + help(m.plugin)
     end
 
     search_string = m.params.join(' ')
@@ -30,5 +30,5 @@ class AmityRbot < Plugin
 end
 
 plugin = AmityRbot.new
-plugin.register("market")
+plugin.register('market')
 

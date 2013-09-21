@@ -23,7 +23,7 @@ class ItemExtractor
     end
 
 
-    return statistics = {
+    {
         name: name,
         amount: stats[1],
         avg_week: stats[2],
@@ -39,7 +39,7 @@ class ItemExtractor
 
     shops = Array.new
     shops_on.each do |shop|
-      shop_id = shop.attr('onclick')[/shop([0-9]*)\'/, 1].strip
+      shop_id = shop.attr('onclick')[/shop([0-9]*)'/, 1].strip
       values = shop.css('td').map(&:text)
 
       shops << {
@@ -50,7 +50,7 @@ class ItemExtractor
       }
     end
 
-    return shops
+    shops
   end
 
   private
@@ -63,7 +63,7 @@ class ItemExtractor
     items = Array.new
     items_doc.each do |doc_element|
       name = doc_element.css('a.resultlink').text
-      id = doc_element.attr('onclick')[/item([0-9]*)\'/, 1]
+      id = doc_element.attr('onclick')[/item([0-9]*)'/, 1]
       items << {
           id: id,
           name: name
@@ -80,13 +80,13 @@ class ItemExtractor
       end
     end
 
-    return found_id
+    found_id
   end
 
   def get_item_doc(string)
     string = get_id(string) unless string.to_s =~ /^[0-9]+$/
 
-    return doc = Nokogiri::HTML(open(@search_query + 'item' + string))
+    Nokogiri::HTML(open(@search_query + 'item' + string))
   end
 
 end

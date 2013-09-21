@@ -6,8 +6,8 @@ describe ItemExtractor do
     @ex = ItemExtractor.new
   end
 
-  describe "#new" do
-    it "takes no parameter and returns an ItemExtractor object" do
+  describe '#new' do
+    it 'takes no parameter and returns an ItemExtractor object' do
       @ex.should be_an_instance_of ItemExtractor
     end
   end
