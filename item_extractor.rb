@@ -1,6 +1,6 @@
-require 'nokogiri'
+require 'rubygems'
 require 'open-uri'
-
+require 'nokogiri'
 
 class ItemExtractor
   def initialize
@@ -8,9 +8,7 @@ class ItemExtractor
   end
 
   def get_item_info(string)
-
     doc = get_item_doc(string)
-
     name = doc.css('div.pagecontent > div.item_detail_title > div.left > span.itemname').text
 
     stats = doc.css('div.pagecontent > div#item_info > div > table > tr.zero > td.ta_r').map(&:text)
@@ -22,14 +20,12 @@ class ItemExtractor
       e.gsub(/\u00A0/, '').strip
     end
 
-
-    {
-        name: name,
-        amount: stats[1],
-        avg_week: stats[2],
-        avg_total: avg_total[0],
-        avg_total_scam: avg_total[1],
-        oc_price: stats[4]
+    {name: name,
+     amount: stats[1],
+     avg_week: stats[2],
+     avg_total: avg_total[0],
+     avg_total_scam: avg_total[1],
+     oc_price: stats[4]
     }
   end
 
@@ -39,7 +35,7 @@ class ItemExtractor
 
     shops = Array.new
     shops_on.each do |shop|
-      shop_id = shop.attr('onclick')[/shop([0-9]*)\'/, 1].strip
+      shop_id = shop.attr('onclick')[/shop([0-9]*)'/, 1].strip
       values = shop.css('td').map(&:text)
 
       shops << {
@@ -50,20 +46,20 @@ class ItemExtractor
       }
     end
 
-    return shops
+    shops
   end
 
   private
 
 
   def get_id(string)
-    doc = Nokogiri::HTML(open(@search_query + string.gsub(' ','%20')))
+    doc = Nokogiri::HTML(open(@search_query + string.gsub(' ', '%20')))
     items_doc = doc.css('div.pagecontent > table.results > tr[class]')
 
     items = Array.new
     items_doc.each do |doc_element|
       name = doc_element.css('a.resultlink').text
-      id = doc_element.attr('onclick')[/item([0-9]*)\'/, 1]
+      id = doc_element.attr('onclick')[/item([0-9]*)'/, 1]
       items << {
           id: id,
           name: name
@@ -80,13 +76,12 @@ class ItemExtractor
       end
     end
 
-    return found_id
+    found_id
   end
 
   def get_item_doc(string)
     string = get_id(string) unless string.to_s =~ /^[0-9]+$/
-
-    return doc = Nokogiri::HTML(open(@search_query + 'item' + string))
+    Nokogiri::HTML(open(@search_query + 'item' + string))
   end
 
 end

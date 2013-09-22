@@ -1,2 +1,2 @@
-AmityWatcher
+AmityScraper
 ============

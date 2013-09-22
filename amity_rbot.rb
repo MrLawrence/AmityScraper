@@ -1,4 +1,4 @@
-require '/home/rbot/rbot-data/plugins/item_extractor'
+require_relative 'item_extractor'
 
 class AmityRbot < Plugin
 
@@ -11,16 +11,15 @@ class AmityRbot < Plugin
   end
 
   def privmsg(m)
-    unless m.params
-      m.reply 'incorrect usage. ' + help(m.plugin)
-    end
 
-    search_string = m.params.join(' ')
+    m.reply 'incorrect usage. ' + help(m.plugin) unless m.params
 
-    info = @ex.get_item_info(search_string)
+    search = m.params.join(' ')
+
+    info = @ex.get_item_info(search)
     m.reply "#{info[:name]}\tØWeek #{info[:avg_week]}\tØTotal #{info[:avg_total]}"
 
-    shops = @ex.get_shops_on(search_string)
+    shops = @ex.get_shops_on(search)
     shops.each do |shop|
       m.reply "#{shop[:price]}z\t #{shop[:amount]}ea\tName: #{shop[:name]}"
     end

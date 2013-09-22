@@ -1,5 +1,4 @@
-require 'item_extractor'
-
+require_relative 'item_extractor'
 
 class AmityConsole
   def initialize
