@@ -1,3 +1,4 @@
+require 'rubygems'
 require 'nokogiri'
 require 'open-uri'
 
@@ -24,12 +25,12 @@ class ItemExtractor
 
 
     return statistics = {
-        name: name,
-        amount: stats[1],
-        avg_week: stats[2],
-        avg_total: avg_total[0],
-        avg_total_scam: avg_total[1],
-        oc_price: stats[4]
+        :name => name,
+        :amount => stats[1],
+        :avg_week => stats[2],
+        :avg_total => avg_total[0],
+        :avg_total_scam => avg_total[1],
+        :oc_price => stats[4]
     }
   end
 
@@ -43,10 +44,10 @@ class ItemExtractor
       values = shop.css('td').map(&:text)
 
       shops << {
-          id: shop_id,
-          name: values[2].strip,
-          price: values[3].gsub(/ Zeny/, '').strip,
-          amount: values[4].gsub(/ ea/, '').strip
+          :id => shop_id,
+          :name => values[2].strip,
+          :price => values[3].gsub(/ Zeny/, '').strip,
+          :amount => values[4].gsub(/ ea/, '').strip
       }
     end
 
@@ -65,8 +66,8 @@ class ItemExtractor
       name = doc_element.css('a.resultlink').text
       id = doc_element.attr('onclick')[/item([0-9]*)\'/, 1]
       items << {
-          id: id,
-          name: name
+          :id => id,
+          :name => name
       }
     end
 

@@ -1,4 +1,4 @@
-require_relative 'item_extractor'
+require 'item_extractor'
 
 
 class AmityConsole
