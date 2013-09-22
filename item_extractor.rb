@@ -1,5 +1,6 @@
 require 'rubygems'
 require 'open-uri'
+require 'cgi'
 require 'nokogiri'
 
 class ItemExtractor
@@ -29,8 +30,8 @@ class ItemExtractor
     }
   end
 
-  def get_shops_on(string)
-    doc = get_item_doc(string)
+  def get_shops_on(id)
+    doc = get_item_doc(id)
     shops_on = doc.css('div.pagecontent > table.results > tr[class]:has(td.status.on):not(:has(td[class] > div.off.zusatz))')
 
     shops = Array.new
@@ -49,11 +50,8 @@ class ItemExtractor
     shops
   end
 
-  private
-
-
   def get_id(string)
-    doc = Nokogiri::HTML(open(@search_query + string.gsub(' ', '%20')))
+    doc = Nokogiri::HTML(open(@search_query + CGI.escape(string)))
     items_doc = doc.css('div.pagecontent > table.results > tr[class]')
 
     items = Array.new
@@ -66,22 +64,13 @@ class ItemExtractor
       }
     end
 
-    #just use the first result
-    found_id = items[0][:id]
-
-    #use the id of an exact match instead
-    items.each do |item|
-      if item.has_value?(string.capitalize)
-        found_id = item[:id]
-      end
-    end
-
-    found_id
+    items
   end
 
-  def get_item_doc(string)
-    string = get_id(string) unless string.to_s =~ /^[0-9]+$/
-    Nokogiri::HTML(open(@search_query + 'item' + string))
+  private
+
+  def get_item_doc(id)
+    Nokogiri::HTML(open(@search_query + 'item' + id))
   end
 
 end

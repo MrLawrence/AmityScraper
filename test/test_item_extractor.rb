@@ -4,12 +4,28 @@ require_relative 'test_helper'
 
 class TestItemExtractor < Test::Unit::TestCase
   def setup
-    @item = 'Strawberry'
+    @item_id = '1053' #Strawberry
     @ex = ItemExtractor.new
   end
 
+  def test_get_id
+    result = @ex.get_id("e potion")
+
+    assert(result[0].has_key?(:name))
+    assert(result[0].has_key?(:id))
+
+    names = []
+    result.each do |hash|
+      names << hash[:name]
+    end
+    assert names.include?('Blue Potion')
+    assert names.include?('White Potion')
+  end
+
+
+
   def test_get_item_info
-    result = @ex.get_item_info(@item)
+    result = @ex.get_item_info(@item_id)
 
     assert(result.has_key?(:name))
     assert(result.has_key?(:amount))
@@ -19,12 +35,10 @@ class TestItemExtractor < Test::Unit::TestCase
     assert(result.has_key?(:oc_price))
 
     assert_equal(6, result.size)
-
-    assert @item == result[:name]
   end
 
   def test_get_shops_on
-    result = @ex.get_shops_on(@item)
+    result = @ex.get_shops_on(@item_id)
 
     assert(result[0].has_key?(:id))
     assert(result[0].has_key?(:name))
