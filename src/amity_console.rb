@@ -7,14 +7,19 @@ class AmityConsole
 
 
   def print_all(item)
+    print_name(item)
     print_info(item)
     print_shops(item)
   end
 
 
+  def print_name(item)
+    puts @ex.get_name(item)
+  end
+
   def print_info(item)
     info = @ex.get_item_info(search(item))
-    puts "#{info[:name]}\tØWeek #{info[:avg_week]}\tØTotal #{info[:avg_total]}"
+    puts "ØWeek #{info[:avg_week]}\tØTotal #{info[:avg_total]}"
   end
 
   def print_shops(item)
@@ -26,7 +31,9 @@ class AmityConsole
 
 
   def search(term)
-    unless term.to_s =~ /^[0-9]+$/
+    if term.to_s =~ /^[0-9]+$/
+      term
+    else
       item_ids = @ex.get_id(term)
 
       #just use the first result
@@ -39,9 +46,6 @@ class AmityConsole
         end
       end
       result_id
-    else
-
-    return term
     end
   end
 end

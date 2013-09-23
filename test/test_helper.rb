@@ -1,1 +1,1 @@
-require_relative '../item_extractor'
+require_relative '../src/item_extractor'

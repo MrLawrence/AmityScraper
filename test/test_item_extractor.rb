@@ -9,7 +9,7 @@ class TestItemExtractor < Test::Unit::TestCase
   end
 
   def test_get_id
-    result = @ex.get_id("e potion")
+    result = @ex.get_id('e potion')
 
     assert(result[0].has_key?(:name))
     assert(result[0].has_key?(:id))
@@ -19,22 +19,24 @@ class TestItemExtractor < Test::Unit::TestCase
       names << hash[:name]
     end
     assert names.include?('Blue Potion')
-    assert names.include?('White Potion')
   end
 
+  def test_get_name
+    result = @ex.get_name(@item_id)
 
+    assert_equal("Strawberry",result)
+  end
 
   def test_get_item_info
     result = @ex.get_item_info(@item_id)
 
-    assert(result.has_key?(:name))
     assert(result.has_key?(:amount))
     assert(result.has_key?(:avg_week))
     assert(result.has_key?(:avg_total))
     assert(result.has_key?(:avg_total_scam))
     assert(result.has_key?(:oc_price))
 
-    assert_equal(6, result.size)
+    assert_equal(5, result.size)
   end
 
   def test_get_shops_on
