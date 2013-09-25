@@ -19,13 +19,13 @@ class AmityConsole
 
   def print_info(item)
     info = @ex.get_item_info(search(item))
-    puts "ØWeek #{info[:avg_week]}\tØTotal #{info[:avg_total]}"
+    puts "ØWeek #{info.fetch(:avg_week)}\tØTotal #{info.fetch(:avg_total)}"
   end
 
   def print_shops(item)
     shops = @ex.get_shops_on(search(item))
     shops.each do |shop|
-      puts "#{shop[:price]}z\t #{shop[:amount]}ea\tName: #{shop[:name]}"
+      puts "#{shop.fetch(:price)}z\t #{shop.fetch(:amount)}ea\tName: #{shop.fetch(:name)}"
     end
   end
 
@@ -37,12 +37,12 @@ class AmityConsole
       item_ids = @ex.get_id(term)
 
       #just use the first result
-      result_id = item_ids[0][:id]
+      result_id = item_ids[0].fetch(:id)
 
       #use the id of an exact match instead
       item_ids.each do |item|
-        if item.has_value?(item[:name].capitalize)
-          result_id = item[:id]
+        if item.has_value?(item.fetch(:name).capitalize)
+          result_id = item.fetch(:id)
         end
       end
       result_id

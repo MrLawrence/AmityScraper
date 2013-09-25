@@ -33,14 +33,14 @@ class ItemExtractor
   def get_item_info(id)
     doc_stats = filter_doc_for_id(id, 'div#item_info td.ta_r')
     stats = doc_stats.map(&:text)
-    stats = stats | stats[3].split('with scam')
+    stats = stats | stats.fetch(3).split('with scam')
     stats.map! { |e| e.gsub(/\u00A0/, '').gsub(/ z/, '').strip }
 
-    {amount: stats[1],
-     avg_week: stats[2],
-     avg_total: stats[5],
-     avg_total_scam: stats[6],
-     oc_price: stats[4]}
+    {amount: stats.fetch(1),
+     avg_week: stats.fetch(2),
+     avg_total: stats.fetch(5),
+     avg_total_scam: stats.fetch(6),
+     oc_price: stats.fetch(4)}
   end
 
   def get_shops_on(id)
@@ -51,9 +51,9 @@ class ItemExtractor
       values = shop.css('td').map(&:text)
 
       shops << {id: shop_id,
-                name: values[2].strip,
-                price: values[3].gsub(/ Zeny/, '').strip,
-                amount: values[4].gsub(/ ea/, '').strip}
+                name: values.fetch(2).strip,
+                price: values.fetch(3).gsub(/ Zeny/, '').strip,
+                amount: values.fetch(4).gsub(/ ea/, '').strip}
     end
 
     shops
