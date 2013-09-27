@@ -17,11 +17,11 @@ class AmityRbot < Plugin
     search = m.params.join(' ')
 
     info = @ex.get_item_info(search)
-    m.reply "#{info[:name]}\tØWeek #{info[:avg_week]}\tØTotal #{info[:avg_total]}"
+    m.reply "#{info.fetch(:name)}\tØWeek #{info.fetch(:avg_week)}\tØTotal #{info.fetch(:avg_total)}"
 
     shops = @ex.get_shops_on(search)
     shops.each do |shop|
-      m.reply "#{shop[:price]}z\t #{shop[:amount]}ea\tName: #{shop[:name]}"
+      m.reply "#{shop.fetch(:price)}z\t #{shop.fetch(:amount)}ea\tName: #{shop.fetch(:name)}"
     end
   end
 
